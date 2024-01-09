@@ -67,13 +67,14 @@
 - title: Honors and Awards
   type: time_table
   contents:
-    - year: 1921
+    - year: 2021
       items: 
-        - Nobel Prize in Physics 
-        - Matteucci Medal
-    - year: 2029
+        - National Science Foundation Graduate Research Fellow 
+    - year: 2018
       items: 
-        - Max Planck Medal
+        - College of Science Outstanding Undergraduate Researcher of the year
+        - Phyllis R. Taylor Endowed Scholar
+        - Joseph T. Crockett Endowed Scholar
 
 # - title: Academic Interests
 #   type: nested_list
