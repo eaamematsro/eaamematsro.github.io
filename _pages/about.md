@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Moto. Etc.
+subtitle: <a href='#'>Center for Theoretical Neuroscience Columbia University</a>. elom.amematsro@columbia.edu.
 
 profile:
   align: right
