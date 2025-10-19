@@ -1,0 +1,17 @@
+# key: {label, color (optional)}
+rl:
+  label: Reinforcement Learning
+  color: "#3b82f6"   # optional accent
+  description: Algorithms for adaptive decision-making and control.
+stats:
+  label: Statistical Inference
+  color: "#8b5cf6"
+  description: Probabilistic modeling for dealing with uncertainty.
+comp_neuro:
+  label: Computational Neuroscience
+  color: "#ef4444"
+  description: Theoretical models of neural systems and brain function.
+neuro:
+  label: Systems Neuroscience
+  color: "#22c55e"
+  description: Understanding the organization and function of neural circuits.

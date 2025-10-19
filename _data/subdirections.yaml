@@ -1,0 +1,46 @@
+hrl:
+  label: Hierarchical Reinforcement Learning
+  color: "#64748b"   # slate
+  parent: rl        # optional, for your sanity
+  description: Methods for learning and planning with hierarchical structure.
+
+offpolicy_eval:
+  label: Off-policy Evaluation
+  color: "#6b7280"
+  parent: rl
+  description: Techniques for evaluating reinforcement learning policies using off-policy data.
+
+il:
+  label: Imitation Learning
+  color: "#14b8a6"
+  parent: rl
+  description: Learning policies by mimicking expert behavior.
+irl:
+  label: Inverse Reinforcement Learning
+  color: "#10b981"
+  parent: rl
+  description: Learning from demonstrations to infer rewards.
+
+neural_dynamics:
+  label: Neural Dynamics
+  color: "#ef4444"
+  parent: comp_neuro
+  description: Modeling the dynamics of neural activity over time.
+
+low_rank_models:
+  label: Low-rank Models of Neural Data
+  color: "#f59e0b"
+  parent: comp_neuro
+  description: Techniques for reducing the dimensionality of neural data.
+
+motor_neuro:
+  label: Neural basis of Motor Control
+  color: "#f97316"
+  parent: neuro
+  description: Understanding the neural mechanisms underlying motor control.
+
+causal_inference:
+  label: Causal Inference
+  color: "#8b5cf6"
+  parent: stats
+  description: Techniques for inferring causal relationships from data.

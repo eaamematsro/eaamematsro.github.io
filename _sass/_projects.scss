@@ -1,0 +1,726 @@
+/* ============================================================
+   Projects page styles  (with 4-tint subtle rhythm)
+   ============================================================ */
+
+/* ---- Global tints (light/dark) ---- */
+:root {
+  /* light mode tints */
+  --tint1: #3b82f6; /* blue    */
+  --tint2: #8b5cf6; /* violet  */
+  --tint3: #f59e0b; /* amber   */
+  --tint4: #10b981; /* emerald */
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* dark mode tints (slightly stronger so they read on dark bg) */
+    --tint1: #60a5fa;
+    --tint2: #a78bfa;
+    --tint3: #fbbf24;
+    --tint4: #34d399;
+  }
+}
+
+/* ---- Controls: search + view toggle ---- */
+.proj-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#proj-search {
+  flex: 1;
+  min-width: 180px;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.view-toggle button {
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.view-toggle .active {
+  background: #111;
+  color: #fff;
+}
+
+/* ---- Filter bar ---- */
+.dir-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0 1rem;
+}
+.dir-btn {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #f7f7f8;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+.dir-btn:hover { background: #e5e7eb; }
+.dir-btn.active { background: #111; color: #fff; border-color: #111; }
+
+/* ---- Grid / list layouts ---- */
+.projects-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.projects-grid[data-view="list"] { grid-template-columns: 1fr; }
+.projects-grid[data-view="list"] .project-card {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.projects-grid .dir-badge {
+  color: var(--badge-color) !important;
+  border-color: var(--badge-color) !important;
+  background: transparent !important;
+}
+
+/* ---- Cards ---- */
+.project-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;                     /* base */
+  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.project-card:hover { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); }
+.project-card.featured { border: 2px solid #2563eb; }
+
+/* ---- 4-tint subtle rhythm (theme-aware) ---- */
+/* We tint the entire card background very lightly so images still pop */
+.projects-grid .project-card:nth-of-type(4n+1) {
+  background: color-mix(in oklab, #fff 94%, var(--tint1) 6%);
+}
+.projects-grid .project-card:nth-of-type(4n+2) {
+  background: color-mix(in oklab, #fff 94%, var(--tint2) 6%);
+}
+.projects-grid .project-card:nth-of-type(4n+3) {
+  background: color-mix(in oklab, #fff 94%, var(--tint3) 6%);
+}
+.projects-grid .project-card:nth-of-type(4n+4) {
+  background: color-mix(in oklab, #fff 94%, var(--tint4) 6%);
+}
+
+/* Dark mode versions a touch stronger so they read */
+@media (prefers-color-scheme: dark) {
+  .project-card { background: #1b1c1f; border-color: #333; }
+  .projects-grid .project-card:nth-of-type(4n+1) {
+    background: color-mix(in oklab, #1b1c1f 88%, var(--tint1) 12%);
+  }
+  .projects-grid .project-card:nth-of-type(4n+2) {
+    background: color-mix(in oklab, #1b1c1f 88%, var(--tint2) 12%);
+  }
+  .projects-grid .project-card:nth-of-type(4n+3) {
+    background: color-mix(in oklab, #1b1c1f 88%, var(--tint3) 12%);
+  }
+  .projects-grid .project-card:nth-of-type(4n+4) {
+    background: color-mix(in oklab, #1b1c1f 88%, var(--tint4) 12%);
+  }
+}
+
+/* ---- Project thumbnail ---- */
+.project-thumb {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  margin-bottom: 0.6rem;
+  background-color: #f7f7f7; /* subtle placeholder */
+}
+
+
+/* ---- Card content ---- */
+.pc-body { padding: 0.75rem; }
+.project-title {
+  margin: 0.25rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.project-summary {
+  margin: 0 0 0.5rem;
+  color: #555;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---- Direction badges (keep your label color) ---- */
+.dir-badge {
+  display: inline-block;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  line-height: 1;
+  border: 1px solid currentColor;
+  margin-right: 0.3rem;
+}
+
+/* ---- Card actions ---- */
+.project-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* ---- Quick View button (pill, subtle, theme-aware) ---- */
+.project-card .project-actions .quickview {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  background: rgba(255,255,255,0.0);
+  color: var(--global-text-color);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: .35rem .85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.project-card .project-actions .quickview:hover,
+.project-card .project-actions .quickview:focus {
+  background: var(--global-theme-color);
+  color: var(--global-bg-color);
+  border-color: var(--global-theme-color);
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+/* Cross-platform magnifying glass icon (SVG mask) */
+.project-card .project-actions .quickview::before{
+  content:"";
+  display:inline-block;
+  width:1em;
+  height:1em;
+  margin-right:.35rem;
+  vertical-align:-0.15em;              /* tidy baseline */
+  background: currentColor;
+
+  /* colorable via mask (works in all modern browsers) */
+  -webkit-mask: url('data:image/svg+xml;utf8,\
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">\
+    <path fill="black" d="M10.5 3.75a6.75 6.75 0 015.355 10.77l4.3 4.3a.75.75 0 11-1.06 1.06l-4.3-4.3A6.75 6.75 0 1110.5 3.75zm0 1.5a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5z"/>\
+  </svg>') center / contain no-repeat;
+
+  mask: url('data:image/svg+xml;utf8,\
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">\
+    <path fill="black" d="M10.5 3.75a6.75 6.75 0 015.355 10.77l4.3 4.3a.75.75 0 11-1.06 1.06l-4.3-4.3A6.75 6.75 0 1110.5 3.75zm0 1.5a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5z"/>\
+  </svg>') center / contain no-repeat;
+}
+
+/* Optional: slightly larger icon on hover to feel responsive */
+.project-card .project-actions .quickview:hover::before {
+  transform: translateY(-0.5px) scale(1.05);
+}
+
+
+/* Dark mode quick view stays transparent until hover */
+@media (prefers-color-scheme: dark) {
+  .project-card .project-actions .quickview {
+    background: transparent;
+    border-color: currentColor;
+    color: var(--global-text-color);
+  }
+  .project-card .project-actions .quickview:hover,
+  .project-card .project-actions .quickview:focus {
+    background: var(--global-theme-color);
+    color: var(--global-bg-color);
+    border-color: var(--global-theme-color);
+  }
+}
+
+/* ---- Quick-view modal ---- */
+#proj-modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+}
+#proj-modal[hidden] { display: none; }
+
+/* Backdrop: softer & theme-aware */
+.pm-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1000px 600px at 50% 10%, rgba(0,0,0,.35), transparent 60%),
+    linear-gradient(to bottom, rgba(0,0,0,.45), rgba(0,0,0,.2) 35%, rgba(0,0,0,.15));
+}
+@media (prefers-color-scheme: light) {
+  .pm-backdrop {
+    background:
+      radial-gradient(1000px 600px at 50% 10%, rgba(0,0,0,.2), transparent 60%),
+      linear-gradient(to bottom, rgba(0,0,0,.20), rgba(0,0,0,.08) 35%, rgba(0,0,0,.06));
+  }
+}
+
+/* Modal card: glass effect + theme variables */
+.pm-card {
+  position: relative;
+  max-width: 920px;
+  width: min(92vw, 920px);
+  max-height: 90vh;
+  overflow: hidden; /* contain inner scroller */
+  border-radius: 16px;
+  padding: 0;       /* header/body handle padding */
+  background: color-mix(in oklab, var(--global-card-bg-color) 85%, transparent);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid color-mix(in oklab, var(--global-text-color) 12%, transparent);
+  box-shadow: 0 18px 60px rgba(0,0,0,.35);
+  color: var(--global-text-color);
+}
+
+/* Sticky header inside modal (great for long content) */
+.pm-head {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: .75rem;
+  padding: .8rem 1rem;
+  background: color-mix(in oklab, var(--global-card-bg-color) 75%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--global-text-color) 10%, transparent);
+  backdrop-filter: blur(10px);
+}
+.pm-title { font-weight: 700; }
+
+/* Close button */
+.pm-close {
+  border: 1px solid color-mix(in oklab, var(--global-text-color) 20%, transparent);
+  background: color-mix(in oklab, var(--global-card-bg-color) 70%, transparent);
+  border-radius: 999px;
+  width: 36px; height: 36px; line-height: 1;
+  font-size: 1.1rem; cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, transform .12s ease;
+}
+.pm-close:hover { transform: scale(1.04); }
+
+/* Modal body (scroller) */
+.pm-body {
+  overflow: auto;
+  max-height: calc(90vh - 56px); /* header ≈ 56px */
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+/* ---- Keep direction/subdirection colors inside Quick View ---- */
+.pm-card .dir-badges .dir-badge {
+  /* color comes from inline style: style="--badge-color: #xxxxxx" */
+  --badge-color: var(--badge-color, currentColor);
+  color: var(--badge-color) !important;
+  border-color: var(--badge-color) !important;
+  background: transparent !important; /* or a faint tint if you prefer */
+}
+
+/* Optional: faint tint in Quick View (matches grid look) */
+@supports (color-mix(in oklab, black, white)) {
+  .pm-card .dir-badges .dir-badge {
+    background: color-mix(in oklab, var(--badge-color) 12%, transparent) !important;
+  }
+}
+
+/* Sub-badges (use their inline border color if present) */
+.pm-card .dir-badges .sub-badge {
+  color: currentColor;
+  border-color: currentColor;
+  background: transparent;
+  opacity: .9;
+  border-style: dashed;
+  font-size: .72rem;
+}
+
+/* Quick-view content structure */
+.qv-section + .qv-section { margin-top: .9rem; }
+.qv-title {
+  margin: 0 0 .35rem;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+/* Collapsible “read more” area with gradient mask */
+.qv-collapsible {
+  position: relative;
+  --collapsed-h: 220px;
+  max-height: var(--collapsed-h);
+  overflow: hidden;
+}
+.qv-collapsible.is-open { max-height: none; }
+.qv-mask {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0; height: 56px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0),
+             color-mix(in oklab, var(--global-card-bg-color) 92%, transparent));
+  display: block;
+}
+.qv-toggle {
+  display: inline-block; margin-top: .4rem;
+  border: 1px solid currentColor; border-radius: 999px;
+  padding: .28rem .7rem; font-size: .85rem; font-weight: 600;
+  background: transparent; cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.qv-toggle:hover {
+  background: var(--global-theme-color);
+  color: var(--global-bg-color);
+  border-color: var(--global-theme-color);
+}
+
+/* Optional: nicer scrollbars inside modal (WebKit) */
+.pm-body::-webkit-scrollbar { width: 10px; }
+.pm-body::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--global-text-color) 18%, transparent);
+  border-radius: 999px;
+}
+
+/* ---- Featured badge boost ---- */
+.project-card.featured .project-title::before {
+  content: "★ ";
+  color: #2563eb;
+}
+
+/* ===== Research directions grid ===== */
+.research-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.1rem;
+  margin-top: .75rem;
+}
+
+/* Card shell */
+.research-card {
+  --bg: color-mix(in oklab, var(--global-card-bg-color, #fff) 92%, var(--dir-color, #6b7280) 8%);
+  --ring: color-mix(in oklab, var(--dir-color, #6b7280) 50%, transparent);
+  --text: var(--global-text-color, #111);
+
+  position: relative;
+  border-radius: 16px;
+  padding: 1rem 1rem 1.1rem;
+  background: var(--bg);
+  border: 1px solid color-mix(in oklab, var(--dir-color, #6b7280) 25%, #0000);
+  box-shadow: 0 4px 18px rgba(0,0,0,.06);
+  transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+}
+
+.research-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(0,0,0,.10);
+  border-color: var(--ring);
+}
+
+/* Header row */
+.rc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-bottom: .25rem;
+}
+
+.dir-heading {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: var(--text);
+}
+
+/* Small project-count badge */
+.dir-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.7rem;
+  height: 1.7rem;
+  padding: 0 .4rem;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text);
+  background: color-mix(in oklab, var(--dir-color, #6b7280) 18%, #ffffff);
+  border: 1px solid color-mix(in oklab, var(--dir-color, #6b7280) 45%, #ffffff);
+}
+
+/* Body copy */
+.dir-description {
+  margin: .25rem 0 .8rem;
+  color: color-mix(in oklab, var(--text) 80%, #0000);
+  line-height: 1.55;
+}
+
+/* CTA button */
+.dir-cta {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: .9rem;
+  padding: .38rem .8rem;
+  border-radius: 999px;
+  color: var(--text);
+  border: 1px solid color-mix(in oklab, var(--dir-color, #6b7280) 55%, #0000);
+  background:
+    linear-gradient(#0000, #0000) padding-box,
+    linear-gradient(90deg,
+      color-mix(in oklab, var(--dir-color, #6b7280) 75%, #6b7280),
+      color-mix(in oklab, var(--dir-color, #6b7280) 35%, #ffffff)
+    ) border-box;
+  transition: background .2s ease, color .2s ease, border-color .2s ease, transform .15s ease;
+}
+
+.research-card:hover .dir-cta {
+  transform: translateY(-1px);
+  color: var(--global-bg-color, #fff);
+  background:
+    linear-gradient(color-mix(in oklab, var(--dir-color, #6b7280) 12%, #ffffff),
+                    color-mix(in oklab, var(--dir-color, #6b7280) 16%, #ffffff)) padding-box,
+    linear-gradient(90deg,
+      color-mix(in oklab, var(--dir-color, #6b7280) 85%, #6b7280),
+      color-mix(in oklab, var(--dir-color, #6b7280) 55%, #ffffff)
+    ) border-box;
+}
+
+/* Dark-mode polish */
+@media (prefers-color-scheme: dark) {
+  .research-card {
+    --bg: color-mix(in oklab, var(--global-card-bg-color, #151517) 88%, var(--dir-color, #93a3b8) 12%);
+    box-shadow: 0 6px 24px rgba(0,0,0,.25);
+  }
+  .dir-description { color: color-mix(in oklab, var(--global-text-color, #eaeaea) 80%, #0000); }
+  .dir-cta {
+    color: var(--global-text-color, #eaeaea);
+    border-color: color-mix(in oklab, var(--dir-color, #93a3b8) 45%, #0000);
+  }
+}
+
+/* ===== Quick-view: collapsible section + toggle ===== */
+
+/* Section spacing */
+.qv-section { 
+  margin: .9rem 0 1.1rem; 
+}
+
+/* Collapsible wrapper with gradient fade */
+.qv-collapsible {
+  position: relative;
+  max-height: 9rem;        /* collapsed height */
+  overflow: hidden;
+  transition: max-height .25s ease;
+}
+.qv-collapsible.is-open { max-height: none; }
+
+/* Gradient mask hints there's more text */
+.qv-mask {
+  pointer-events: none;
+  position: absolute;
+  inset: auto 0 0 0;       /* bottom only */
+  height: 3rem;
+  background: linear-gradient(to bottom,
+              rgba(0,0,0,0) 0%,
+              color-mix(in oklab, var(--global-bg-color, #fff) 85%, transparent) 90%);
+}
+@media (prefers-color-scheme: dark) {
+  .qv-mask {
+    background: linear-gradient(to bottom,
+                rgba(0,0,0,0) 0%,
+                color-mix(in oklab, var(--global-card-bg-color, #151517) 92%, transparent) 90%);
+  }
+}
+.qv-collapsible.is-open + .qv-mask { display: none; }
+
+/* Title inside quick-view */
+.qv-title { 
+  margin: 0 0 .4rem; 
+  font-size: 1.05rem; 
+  font-weight: 700; 
+}
+
+/* Toggle button: subtle pill, right-aligned */
+.qv-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .45rem;
+  margin-left: auto;        /* push right */
+  background: color-mix(in oklab, var(--global-theme-color, #2563eb) 10%, transparent);
+  color: var(--global-theme-color, #2563eb);
+  border: 1px solid color-mix(in oklab, var(--global-theme-color, #2563eb) 55%, transparent);
+  border-radius: 999px;
+  padding: .28rem .7rem;
+  font-size: .85rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.qv-toggle:hover,
+.qv-toggle:focus {
+  background: var(--global-theme-color, #2563eb);
+  color: var(--global-bg-color, #fff);
+  border-color: var(--global-theme-color, #2563eb);
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+
+/* Meta pills and highlights inside quick-view (optional polish) */
+.qv-meta .pill {
+  display: inline-block;
+  margin: 0 .35rem .35rem 0;
+  padding: .18rem .5rem;
+  border-radius: 999px;
+  font-size: .78rem;
+  border: 1px solid color-mix(in oklab, var(--global-text-color, #111) 50%, transparent);
+  color: var(--global-text-color, #111);
+  background: color-mix(in oklab, var(--global-card-bg-color, #fff) 92%, transparent);
+}
+.qv-highlights { margin: .3rem 0 0 1.1rem; }
+
+/* ===== Quick-view: transparent surfaces + collapsible ===== */
+.pm-backdrop{
+  background: color-mix(in oklab, #000 55%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+/* Card uses theme colors */
+.pm-card{
+  background: var(--global-card-bg-color) !important;
+  color: var(--global-text-color);
+  border: 1px solid var(--global-divider-color);
+}
+
+/* Kill stray backgrounds inside quick view */
+.pm-card .pm-body,
+.pm-card .qv-header,
+.pm-card .qv-content,
+.pm-card .qv-section{
+  background: transparent !important;
+}
+
+/* Header layout */
+.qv-header{
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 1rem;
+  align-items: start;
+  margin-bottom: .5rem;
+}
+.qv-header img.project-thumb{
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+}
+
+/* Sections */
+.qv-content{ padding-top: .25rem; }
+.qv-section .qv-h{ margin:.1rem 0 .35rem; font-size:1rem; font-weight:700; }
+.qv-section p{ margin:.25rem 0; line-height:1.55; }
+
+/* Collapsible */
+.qv-collapsible{ position:relative; max-height:9rem; overflow:hidden; }
+.qv-collapsible.is-open{ max-height:none; }
+.qv-mask{
+  pointer-events:none;
+  position:absolute; inset:auto 0 0 0; height:3rem;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0%,
+    color-mix(in oklab, var(--global-card-bg-color) 92%, transparent) 90%
+  );
+}
+@media (prefers-color-scheme: dark){
+  .qv-mask{
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0%,
+      color-mix(in oklab, var(--global-card-bg-color, #151517) 92%, transparent) 90%
+    );
+  }
+}
+.qv-collapsible.is-open + .qv-mask{ display:none; }
+
+/* Toggle button (pill) */
+.qv-toggle{
+  display:inline-flex; align-items:center; gap:.35rem;
+  margin:.5rem 0 .25rem 0;
+  background: color-mix(in oklab, var(--global-theme-color) 12%, transparent);
+  color: var(--global-theme-color);
+  border: 1px solid color-mix(in oklab, var(--global-theme-color) 55%, transparent);
+  border-radius: 999px; padding:.28rem .7rem; font-size:.9rem; font-weight:600;
+  cursor:pointer; transition: .2s ease;
+}
+.qv-toggle:hover{ background: var(--global-theme-color); color: var(--global-bg-color); }
+
+/* Make sure default <button> styles don't reintroduce a gray fill */
+.pm-card button.qv-toggle{ background: transparent; }
+
+/* --- Fix: text sometimes appears with a full background in research cards --- */
+
+/* Reset any inherited background/clip on text inside cards */
+.rd-scope .research-card h1,
+.rd-scope .research-card h2,
+.rd-scope .research-card h3,
+.rd-scope .research-card p,
+.rd-scope .research-card .dir-heading,
+.rd-scope .research-card .dir-description {
+  background: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: currentColor !important; /* Safari guard */
+  color: inherit;
+}
+
+/* Ensure the CTA label is visible (some themes/plugins set link text fill to transparent) */
+.rd-scope .research-card .dir-cta {
+  position: relative;
+  color: var(--global-text-color, #111) !important;
+  -webkit-text-fill-color: var(--global-text-color, #111) !important;
+  background:
+    linear-gradient(#0000, #0000) padding-box, /* keep interior clear for text */
+    linear-gradient(90deg,
+      color-mix(in oklab, var(--dir-color, #6b7280) 75%, #6b7280),
+      color-mix(in oklab, var(--dir-color, #6b7280) 35%, #ffffff)
+    ) border-box;                                /* gradient border only */
+}
+
+/* On hover, fill with a subtle tint but keep text readable */
+.rd-scope .research-card:hover .dir-cta {
+  color: var(--global-bg-color, #fff) !important;
+  -webkit-text-fill-color: var(--global-bg-color, #fff) !important;
+  background:
+    linear-gradient(
+      0deg,
+      color-mix(in oklab, var(--dir-color, #6b7280) 14%, #ffffff),
+      color-mix(in oklab, var(--dir-color, #6b7280) 16%, #ffffff)
+    ) padding-box,
+    linear-gradient(90deg,
+      color-mix(in oklab, var(--dir-color, #6b7280) 85%, #6b7280),
+      color-mix(in oklab, var(--dir-color, #6b7280) 55%, #ffffff)
+    ) border-box;
+}
+
+/* If you ever see underline/anchor decorations picking up the gradient, normalize them */
+.rd-scope .research-card .dir-cta,
+.rd-scope .research-card a {
+  text-decoration: none;
+  text-decoration-color: currentColor;
+}
+

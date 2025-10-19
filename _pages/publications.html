@@ -1,0 +1,77 @@
+---
+layout: page
+title: Publications
+permalink: /publications/
+nav: true
+nav_order: 40
+---
+
+<!-- Filter bar -->
+<div class="dir-filter" id="pub-filter">
+  <button class="dir-btn active" data-dir="all">All</button>
+  {% for pair in site.data.directions %}
+    {% assign key = pair[0] %}
+    {% assign info = pair[1] %}
+    <button class="dir-btn" data-dir="{{ key }}">{{ info.label }}</button>
+  {% endfor %}
+</div>
+
+<h2>Selected publications</h2>
+<div id="pubs-selected" class="pubs-grid">
+  {% bibliography --query @*[selected=true] --template bib_filter %}
+</div>
+
+<hr/>
+
+<h2>All publications</h2>
+<div id="pubs-all" class="pubs-grid">
+  {% bibliography --template bib_filter %}
+</div>
+
+<script src="{{ '/assets/js/dir-filter-publications.js' | relative_url }}"></script>
+
+<!-- Filter Publications by ?project=slug -->
+<script>
+(function() {
+  var params = new URLSearchParams(location.search);
+  var project = (params.get('project') || '').toLowerCase().trim();
+  if (!project) return;
+
+  // Hide/show entries by data-projects
+  var matches = 0;
+  document.querySelectorAll('.pub-entry').forEach(function(el){
+    var projs = (el.getAttribute('data-projects') || '')
+      .toLowerCase()
+      .split(/\s+/)
+      .filter(Boolean);
+    if (projs.includes(project)) {
+      el.style.display = '';
+      matches++;
+    } else {
+      el.style.display = 'none';
+    }
+  });
+
+  // Hide empty year groups (if grouped by year)
+  document.querySelectorAll('.bibliography > section').forEach(function(sec){
+    var anyVisible = sec.querySelector('.pub-entry:not([style*="display: none"])');
+    sec.style.display = anyVisible ? '' : 'none';
+  });
+
+  // Optional: show a little banner with a clear link
+  var host = document.querySelector('main .container, main, .content') || document.body;
+  var banner = document.createElement('div');
+  banner.className = 'pub-filter-banner';
+  banner.innerHTML = 'Filtering by project: <strong>' + project +
+                     '</strong> &nbsp;<a href="' + location.pathname + '">✕ clear</a>';
+  host.prepend(banner);
+})();
+</script>
+
+<style>
+.pub-filter-banner{
+  margin: 0 0 1rem 0; padding: .5rem .75rem;
+  border: 1px solid #e5e7eb; border-radius: .5rem;
+  font-size: .9rem; background: rgba(0,0,0,.03);
+}
+</style>

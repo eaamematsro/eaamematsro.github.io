@@ -1,0 +1,78 @@
+{%- assign dirs_raw = entry.directions | default: '' -%}
+{%- assign dirs = dirs_raw | replace: ',', ' ' | split: ' ' | uniq -%}
+
+<div class="pub-entry"
+     data-dirs="{{ dirs | join: ' ' }}">
+  <div class="pub-meta">
+    {%- if entry.abbr -%}
+      <span class="pub-venue">{{ entry.abbr }}</span>
+    {%- endif -%}
+    <span class="pub-year">{{ entry.year }}</span>
+  </div>
+
+  <div class="pub-title">
+    {{ entry.title }}
+  </div>
+
+  <div class="pub-authors">
+    {{ entry.author }}
+  </div>
+
+  <!-- Direction badges -->
+  {%- if dirs.size > 0 -%}
+    <div class="dir-badges">
+      {%- for d in dirs -%}
+        {%- assign info = site.data.directions[d] -%}
+        {%- if info -%}
+          <span class="dir-badge dir-{{ d }}"
+                {%- if info.color -%} style="--dir-color: {{ info.color }}"{%- endif -%}>
+            {{ info.label }}
+          </span>
+        {%- else -%}
+          <span class="dir-badge">{{ d }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <!-- Action buttons (extend to your liking) -->
+  <div class="pub-links">
+    {%- if entry.pdf -%}
+      <a class="btn btn-sm" href="{{ entry.pdf | relative_url }}" target="_blank" rel="noopener">PDF</a>
+    {%- endif -%}
+    {%- if entry.arxiv -%}
+      <a class="btn btn-sm" href="https://arxiv.org/abs/{{ entry.arxiv }}" target="_blank" rel="noopener">arXiv</a>
+    {%- endif -%}
+    {%- if entry.code -%}
+      <a class="btn btn-sm" href="{{ entry.code }}" target="_blank" rel="noopener">Code</a>
+    {%- endif -%}
+    {%- if entry.website -%}
+      <a class="btn btn-sm" href="{{ entry.website }}" target="_blank" rel="noopener">Website</a>
+    {%- endif -%}
+    {%- if entry.html -%}
+      <a class="btn btn-sm" href="{{ entry.html }}" target="_blank" rel="noopener">HTML</a>
+    {%- endif -%}
+    {%- if entry.blog -%}
+      <a class="btn btn-sm" href="{{ entry.blog | relative_url }}">Blog</a>
+    {%- endif -%}
+    {%- if entry.url -%}
+      <a class="btn btn-sm" href="{{ entry.url }}" target="_blank" rel="noopener">Link</a>
+    {%- endif -%}
+    {%- if entry.bibtex_show -%}
+      <a class="btn btn-sm" data-toggle="collapse" href="#bib-{{ entry.key }}">Bib</a>
+    {%- endif -%}
+  </div>
+
+  {%- if entry.abstract -%}
+    <details class="pub-abs">
+      <summary>Abstract</summary>
+      <p>{{ entry.abstract }}</p>
+    </details>
+  {%- endif -%}
+
+  {%- if entry.bibtex_show -%}
+  <div id="bib-{{ entry.key }}" class="pub-bib">
+    <pre><code>{% raw %}{{ entry.bibtex }}{% endraw %}</code></pre>
+  </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ page.title }} · {{ site.title }}</title>
+</head>
+<body>
+
+{%- assign slug_safe = page.slug | default: page.title | slugify | downcase -%}
+{%- assign EMPTY = "" | split: "" -%}
+
+<!-- Top bar -->
+<div class="proj-topbar">
+  <a class="home-link" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+  <a href="{{ '/projects/' | relative_url }}" class="btn-pill">All projects</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<header class="proj-hero{% if page.img %} has-bg{% endif %}"
+        style="{% if page.img %}--hero:url('{{ page.img | relative_url }}'){% endif %}">
+  <div class="proj-hero__overlay"></div>
+  <div class="container hero-center">
+    <h1 class="proj-title">{{ page.title }}</h1>
+    {%- if page.summary or page.description -%}
+      <p class="proj-subtitle">{{ page.summary | default: page.description }}</p>
+    {%- endif -%}
+  </div>
+</header>
+
+<!-- ===== META BAND (badges & links) ===== -->
+<section class="proj-meta">
+  <div class="container meta-inner">
+    <div class="proj-badges">
+      {%- assign dirs = page.directions | default: EMPTY -%}
+      {%- for d in dirs -%}
+        {%- assign dinfo = site.data.directions[d] -%}
+        <span class="pill pill--dir" style="--pill: {{ dinfo.color | default: '#888' }}">{{ dinfo.label | default: d }}</span>
+      {%- endfor -%}
+
+      {%- assign subdirs = page.subdirs | default: EMPTY -%}
+      {%- for s in subdirs -%}
+        {%- assign skey = s | strip -%}
+        {%- assign sinfo = site.data.subdirections[skey] -%}
+        <span class="pill pill--sub" style="--pill: {{ sinfo.color | default: '#999' }}">{{ sinfo.label | default: skey }}</span>
+      {%- endfor -%}
+
+      {%- if page.status -%}<span class="pill pill--soft">{{ page.status }}</span>{%- endif -%}
+      {%- if page.timeframe -%}<span class="pill pill--soft">{{ page.timeframe }}</span>{%- endif -%}
+    </div>
+
+    {%- if page.artifacts or page.code or page.data or page.demo -%}
+      {%- assign arts = page.artifacts | default: nil -%}
+      <div class="proj-actions">
+        {%- assign code = page.code | default: arts.code -%}
+        {%- assign data = page.data | default: arts.data -%}
+        {%- assign demo = page.demo | default: arts.demo -%}
+        {%- if code %}<a class="btn-pill" href="{{ code }}" target="_blank" rel="noopener">Code</a>{% endif -%}
+        {%- if data %}<a class="btn-pill" href="{{ data }}" target="_blank" rel="noopener">Data</a>{% endif -%}
+        {%- if demo %}<a class="btn-pill" href="{{ demo }}" target="_blank" rel="noopener">Demo</a>{% endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<!-- ===== MAIN ===== -->
+<main class="container proj-main one-col">
+  <div class="proj-content">
+
+    {%- if page.problem or page.approach -%}
+      <section class="blk">
+        <h2>Problem &amp; approach</h2>
+        {%- if page.problem -%}<p><strong>Problem.</strong> {{ page.problem }}</p>{%- endif -%}
+        {%- if page.approach -%}<p><strong>Approach.</strong> {{ page.approach }}</p>{%- endif -%}
+      </section>
+    {%- endif -%}
+
+    {%- if page.results -%}
+      <section class="blk"><h2>Results / status</h2><p>{{ page.results }}</p></section>
+    {%- endif -%}
+
+    {%- if page.highlights and page.highlights.size > 0 -%}
+      <section class="blk">
+        <h2>Highlights</h2>
+        <ul>
+          {%- for h in page.highlights -%}<li>{{ h }}</li>{%- endfor -%}
+        </ul>
+      </section>
+    {%- endif -%}
+
+    <!-- Long-form content from the markdown file -->
+    <section class="blk">{{ content }}</section>
+
+    <!-- People & labs to follow (optional) -->
+    {%- assign ppl = page.people_to_follow | default: EMPTY -%}
+    {%- if ppl and ppl.size > 0 -%}
+      <section class="blk">
+        <h2>If you're interested in this line of research, here are some more people &amp; labs to follow</h2>
+        <ul class="ppl-list">
+          {%- for person in ppl -%}
+            {%- assign pname = person.name | default: person -%}
+            <li>
+              {%- if person.url -%}
+                <a class="ext" href="{{ person.url }}" target="_blank" rel="noopener">{{ pname }}</a>
+              {%- else -%}
+                {{ pname }}
+              {%- endif -%}
+              {%- if person.affiliation -%}
+                <span class="dim"> — {{ person.affiliation }}</span>
+              {%- endif -%}
+              {%- if person.note -%}
+                <span class="dim"> · {{ person.note }}</span>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </section>
+    {%- endif -%}
+
+    <!-- Publications -->
+    <section class="blk">
+      <h2>Related publications</h2>
+      <p><a href="{{ '/publications/' | relative_url }}?project={{ slug_safe | uri_escape }}">See all publications for this project →</a></p>
+    </section>
+  </div>
+</main>
+
+<!-- ===== CSS ===== -->
+<style>
+:root{
+  --global-bg-color:#ffffff; --global-text-color:#111;
+  --global-card-bg-color:#ffffff; --global-divider-color:#e5e7eb;
+  --global-theme-color:#2563eb;
+
+  /* NEW subtle tints for the 4-step rhythm (light mode) */
+  --tint1:#3b82f6; /* blue    */
+  --tint2:#8b5cf6; /* violet  */
+  --tint3:#f59e0b; /* amber   */
+  --tint4:#10b981; /* emerald */
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --global-bg-color:#0e0e0f; --global-text-color:#eaeaea;
+    --global-card-bg-color:#151517; --global-divider-color:#2a2a2d;
+    --global-theme-color:#60a5fa;
+
+    /* Dark-mode tints (same hues, slightly more saturated) */
+    --tint1:#60a5fa;
+    --tint2:#a78bfa;
+    --tint3:#fbbf24;
+    --tint4:#34d399;
+  }
+}
+body{background:var(--global-bg-color);color:var(--global-text-color);}
+.container{max-width:1100px;margin-inline:auto;padding-inline:1rem}
+
+/* Top bar */
+.proj-topbar{display:flex;justify-content:space-between;align-items:center;
+  padding:.6rem 1rem;border-bottom:1px solid var(--global-divider-color);
+  background:var(--global-bg-color);position:sticky;top:0;z-index:5}
+.home-link{text-decoration:none;color:var(--global-text-color);font-weight:700}
+.btn-pill{display:inline-block;padding:.4rem .85rem;border-radius:999px;border:1px solid var(--global-text-color);
+  text-decoration:none;color:var(--global-text-color);background:transparent;transition:.2s}
+.btn-pill:hover{background:var(--global-theme-color);color:var(--global-bg-color);border-color:var(--global-theme-color)}
+
+/* HERO */
+.proj-hero{
+  position:relative;
+  padding:4.5rem 0 3rem;
+  background:var(--global-bg-color);
+  background-image:var(--hero,none);
+  background-size:cover;
+  background-position:center;
+  text-align:center;
+}
+.proj-hero__overlay{
+  position:absolute; inset:0;
+  background:
+    radial-gradient( circle at 50% 20%, rgba(0,0,0,.35), transparent 60% ),
+    linear-gradient(to bottom, rgba(0,0,0,.45), rgba(0,0,0,.15) 60%, rgba(0,0,0,0) 100%);
+  display:{% if page.img %}block{% else %}none{% endif %};
+}
+.hero-center{
+  position:relative; z-index:1;
+  display:flex; flex-direction:column; align-items:center; gap:.7rem;
+}
+.proj-title{
+  font-size: clamp(2rem, 2.6vw + 1.2rem, 3rem);
+  margin:0; color:var(--global-text-color); letter-spacing:.3px;
+}
+.proj-hero.has-bg .proj-title{
+  color:#fff; background:rgba(0,0,0,.55);
+  padding:.55rem 1.25rem; border-radius:.8rem;
+  box-shadow:0 10px 30px rgba(0,0,0,.25); backdrop-filter:saturate(120%) blur(2px);
+}
+.proj-subtitle{
+  max-width:65ch; margin:0 auto; color:var(--global-text-color); opacity:.9; font-size:1.08rem;
+}
+.proj-hero.has-bg .proj-subtitle{
+  color:#fff; background:rgba(0,0,0,.5);
+  padding:.5rem 1rem; border-radius:.6rem; box-shadow:0 8px 26px rgba(0,0,0,.22);
+}
+
+/* META BAND */
+.proj-meta{border-bottom:1px solid var(--global-divider-color); background:color-mix(in oklab, var(--global-bg-color) 85%, transparent);}
+.meta-inner{display:flex; justify-content:space-between; align-items:center; gap:1rem; padding: .85rem 0;}
+.proj-badges{display:flex; flex-wrap:wrap; gap:.4rem;}
+.proj-actions{display:flex; gap:.4rem; flex-wrap:wrap}
+
+/* badges */
+.pill{display:inline-block;padding:.22rem .6rem;border-radius:999px;
+  font-size:.8rem;line-height:1;border:1px solid var(--global-text-color);
+  color:var(--global-text-color);background:transparent}
+.pill--dir{border-color:var(--pill,#888);color:var(--pill,#888); background:color-mix(in oklab, var(--pill,#888) 15%, transparent);}
+.pill--sub{border-style:dashed;opacity:.9}
+
+/* Main content blocks */
+.proj-main.one-col{max-width:1100px}
+.proj-content .blk{
+  border: none;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.1rem 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,.03);
+  transition: background .3s ease;
+  text-align: center;
+}
+
+/* 4-step subtle color rhythm (theme-aware) */
+.proj-content .blk:nth-of-type(4n+1) {
+  background: color-mix(in oklab, var(--global-card-bg-color) 94%, var(--tint1) 6%);
+}
+.proj-content .blk:nth-of-type(4n+2) {
+  background: color-mix(in oklab, var(--global-card-bg-color) 94%, var(--tint2) 6%);
+}
+.proj-content .blk:nth-of-type(4n+3) {
+  background: color-mix(in oklab, var(--global-card-bg-color) 94%, var(--tint3) 6%);
+}
+.proj-content .blk:nth-of-type(4n+4) {
+  background: color-mix(in oklab, var(--global-card-bg-color) 94%, var(--tint4) 6%);
+}
+@media (prefers-color-scheme: dark) {
+  .proj-content .blk:nth-of-type(4n+1) {
+    background: color-mix(in oklab, var(--global-card-bg-color) 88%, var(--tint1) 12%);
+  }
+  .proj-content .blk:nth-of-type(4n+2) {
+    background: color-mix(in oklab, var(--global-card-bg-color) 88%, var(--tint2) 12%);
+  }
+  .proj-content .blk:nth-of-type(4n+3) {
+    background: color-mix(in oklab, var(--global-card-bg-color) 88%, var(--tint3) 12%);
+  }
+  .proj-content .blk:nth-of-type(4n+4) {
+    background: color-mix(in oklab, var(--global-card-bg-color) 88%, var(--tint4) 12%);
+  }
+}
+
+/* Typography & rhythm */
+.proj-content h1, 
+.proj-content h2, 
+.proj-content h3 {
+  text-align: center;
+  color: var(--global-text-color);
+  letter-spacing: .2px;
+  margin: .4rem 0 .7rem;
+}
+.proj-content h4, 
+.proj-content h5, 
+.proj-content h6 {
+  text-align: left;
+  margin: .5rem 0 .5rem;
+  color: var(--global-text-color);
+  font-weight: 600;
+}
+.proj-content p { line-height: 1.6; text-align: left; }
+.proj-content ul { text-align: left; margin: .4rem auto .2rem 1.1rem; }
+.proj-content img, figure { display: block; margin: 1rem auto; border-radius: 10px; max-width: 100%; }
+
+/* People list */
+.ppl-list{ margin:.35rem auto .2rem; display:inline-block; text-align:left; }
+.ppl-list li{ margin:.22rem 0; }
+.ppl-list .dim{ opacity:.75; }
+a.ext::after{ content:"↗"; margin-left:.25rem; opacity:.7; }
+
+/* Dark tweaks for hero overlay & shadow depth */
+@media(prefers-color-scheme:dark){
+  .proj-hero__overlay{
+    background:
+      radial-gradient( circle at 50% 20%, rgba(0,0,0,.5), transparent 60% ),
+      linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.25) 60%, rgba(0,0,0,0) 100%);
+  }
+  .proj-meta{background:color-mix(in oklab, #111 85%, transparent);}
+  .proj-content .blk{box-shadow:0 10px 28px rgba(0,0,0,.18);}
+}
+</style>
+
+</body>
+</html>

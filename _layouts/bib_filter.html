@@ -1,0 +1,151 @@
+{%- comment -%} _layouts/bib_filter.html — robust (no map:), Directions > Subdirs > Keywords + Impact badges {%- endcomment -%}
+
+{%- comment -%}
+MAIN DIRECTIONS (filterable):
+  - entry.directions (comma-separated)
+  - entry.keywords tokens that ALSO match keys in site.data.directions
+{%- endcomment -%}
+{%- assign kw_raw   = entry.keywords   | default: '' -%}
+{%- assign dir_raw  = entry.directions | default: '' -%}
+
+{%- assign kw_list  = kw_raw  | split: ',' -%}
+{%- assign dir_list = dir_raw | split: ',' -%}
+
+{%- capture merged_dirs_str -%}{%- endcapture -%}
+
+{%- for d in dir_list -%}
+  {%- assign k = d | strip | downcase -%}
+  {%- if k != '' -%}
+    {%- capture merged_dirs_str -%}{{ merged_dirs_str }} {{ k }}{%- endcapture -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- for k in kw_list -%}
+  {%- assign key = k | strip | downcase -%}
+  {%- if key != '' and site.data.directions[key] -%}
+    {%- capture merged_dirs_str -%}{{ merged_dirs_str }} {{ key }}{%- endcapture -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign merged_dirs_list = merged_dirs_str | strip | split: ' ' | uniq -%}
+
+{%- comment -%}
+SUB-DIRECTIONS (display-only; non-filtering):
+  - entry.subdirs OR entry.keywords_sub (comma-separated)
+{%- endcomment -%}
+{%- assign sub_raw  = entry.keywords_sub | default: entry.subdirs | default: '' -%}
+{%- assign sub_list_raw = sub_raw | split: ',' -%}
+
+{%- comment -%}
+OTHER KEYWORDS (display-only; non-filtering):
+  - any keyword that did NOT match a direction key
+{%- endcomment -%}
+{%- capture other_kw_str -%}{%- endcapture -%}
+{%- for k in kw_list -%}
+  {%- assign key = k | strip | downcase -%}
+  {%- if key != '' and site.data.directions[key] == nil -%}
+    {%- capture other_kw_str -%}{{ other_kw_str }} {{ key }}{%- endcapture -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign other_kw_list = other_kw_str | strip | split: ' ' | uniq -%}
+
+{%- comment -%}
+PROJECT SLUGS for client-side filtering on publications page.
+We build proj_list safely without map:, lowercasing and stripping in a loop.
+{%- endcomment -%}
+{%- assign proj_field = entry.project | default: '' -%}
+{%- assign _parts = proj_field | split: ',' -%}
+{%- assign proj_list = '' | split: '' -%}
+{%- for _p in _parts -%}
+  {%- assign t = _p | strip | downcase -%}
+  {%- if t != '' -%}
+    {%- assign proj_list = proj_list | push: t -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign proj_list = proj_list | uniq -%}
+
+{%- comment -%} IMPACT METADATA (for badges/links) {%- endcomment -%}
+{%- assign doi   = entry.doi   | default: '' | strip -%}
+{%- assign arxiv = entry.arxiv | default: '' | strip -%}
+
+<div class="pub-entry"
+     data-dirs="{{ merged_dirs_list | join: ' ' }}"
+     data-projects="{{ proj_list | join: ' ' }}">
+  <div class="pub-meta">
+    {%- if entry.abbr -%}<span class="pub-venue">{{ entry.abbr }}</span>{%- endif -%}
+    {%- if entry.year -%}<span class="pub-year">{{ entry.year }}</span>{%- endif -%}
+  </div>
+
+  <div class="pub-title">{{ entry.title }}</div>
+  <div class="pub-authors">{{ entry.author }}</div>
+
+  {%- if merged_dirs_list.size > 0 or sub_list_raw.size > 0 or other_kw_list.size > 0 -%}
+  <div class="dir-badges">
+    {%- comment -%} 1) DIRECTIONS (primary; colored; filterable) {%- endcomment -%}
+    {%- for key in merged_dirs_list -%}
+      {%- assign info  = site.data.directions[key] -%}
+      {%- if info and info.color -%}{%- assign clr = info.color -%}{%- else -%}{%- assign clr = '#444' -%}{%- endif -%}
+      {%- if info and info.label -%}{%- assign label = info.label -%}{%- else -%}{%- assign label = key -%}{%- endif -%}
+      <span class="dir-badge dir-{{ key }}" style="color: {{ clr }}; border-color: {{ clr }};">{{ label }}</span>
+    {%- endfor -%}
+
+    {%- comment -%} 2) SUB-DIRECTIONS (secondary; subtle; non-filtering) {%- endcomment -%}
+    {%- for s in sub_list_raw -%}
+      {%- assign skey = s | strip | downcase -%}
+      {%- if skey != '' -%}
+        {%- assign sinfo  = site.data.subdirections[skey] -%}
+        {%- if sinfo and sinfo.color -%}{%- assign sclr = sinfo.color -%}{%- else -%}{%- assign sclr = '#999' -%}{%- endif -%}
+        {%- if sinfo and sinfo.label -%}{%- assign slabel = sinfo.label -%}{%- else -%}{%- assign slabel = skey -%}{%- endif -%}
+        <span class="sub-badge sub-{{ skey }}" style="color: {{ sclr }}; border-color: {{ sclr }};">{{ slabel }}</span>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- comment -%} 3) OTHER KEYWORDS (tertiary; boxed black; non-filtering) {%- endcomment -%}
+    {%- for w in other_kw_list -%}
+      {%- assign wkey = w | strip -%}
+      {%- if wkey != '' -%}
+        <span class="kw-badge kw-{{ wkey | replace: ' ', '-' }}" style="color: #000; border-color: #000;">
+          {{ wkey }}
+        </span>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  {%- endif -%}
+
+  {%- comment -%} IMPACT: Dimensions (citations) + Altmetric (attention) {%- endcomment -%}
+  {%- if doi != '' or arxiv != '' -%}
+  <div class="pub-impact">
+    <div class="impact-badges">
+      {%- if doi != '' -%}
+        <span class="__dimensions_badge_embed__" data-doi="{{ doi }}" data-style="small_circle"></span>
+      {%- endif -%}
+      {%- if doi != '' -%}
+        <span class="altmetric-embed" data-doi="{{ doi }}" data-badge-type="donut" data-hide-no-mentions="true"></span>
+      {%- elsif arxiv != '' -%}
+        <span class="altmetric-embed" data-arxiv-id="{{ arxiv }}" data-badge-type="donut" data-hide-no-mentions="true"></span>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- endif -%}
+
+  <div class="pub-links">
+    {%- if entry.pdf -%}<a class="btn btn-sm" href="{{ entry.pdf | relative_url }}" target="_blank" rel="noopener">PDF</a>{%- endif -%}
+    {%- if entry.arxiv -%}<a class="btn btn-sm" href="https://arxiv.org/abs/{{ entry.arxiv }}" target="_blank" rel="noopener">arXiv</a>{%- endif -%}
+    {%- if entry.code -%}<a class="btn btn-sm" href="{{ entry.code }}" target="_blank" rel="noopener">Code</a>{%- endif -%}
+    {%- if entry.website -%}<a class="btn btn-sm" href="{{ entry.website }}" target="_blank" rel="noopener">Website</a>{%- endif -%}
+    {%- if entry.html -%}<a class="btn btn-sm" href="{{ entry.html }}" target="_blank" rel="noopener">HTML</a>{%- endif -%}
+    {%- if entry.blog -%}<a class="btn btn-sm" href="{{ entry.blog | relative_url }}">Blog</a>{%- endif -%}
+    {%- if entry.url -%}<a class="btn btn-sm" href="{{ entry.url }}" target="_blank" rel="noopener">Link</a>{%- endif -%}
+    {%- if entry.bibtex_show -%}<a class="btn btn-sm" data-toggle="collapse" href="#bib-{{ entry.key }}">Bib</a>{%- endif -%}
+  </div>
+
+  {%- if entry.abstract -%}
+  <details class="pub-abs"><summary>Abstract</summary><p>{{ entry.abstract }}</p></details>
+  {%- endif -%}
+
+  {%- if entry.bibtex_show -%}
+  <div id="bib-{{ entry.key }}" class="pub-bib">
+    <pre><code>{% raw %}{{ entry.bibtex }}{% endraw %}</code></pre>
+  </div>
+  {%- endif -%}
+</div>
