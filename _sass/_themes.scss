@@ -91,3 +91,14 @@ html[data-theme='dark'] {
     display: block;
   }
 }
+
+:root {
+  --accent-start: #3b82f6; /* blue */
+  --accent-end:   #8b5cf6; /* violet */
+  --accent-grad: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+}
+a, .btn-pill:hover {
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

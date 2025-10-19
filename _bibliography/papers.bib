@@ -3,6 +3,58 @@
 
 @string{aps = {American Physical Society,}}
 
+@article{amematsro2025motor,
+  title={Motor cortex flexibly deploys a high-dimensional repertoire of subskills},
+  author={Amematsro, Elom A and Trautmann, Eric M and Marshall, Najja J and Abbott, LF and Shadlen, Michael N and Wolpert, Daniel M and Churchland, Mark M},
+  journal={bioRxiv},
+  pages={2025--09},
+  year={2025},
+  publisher={Cold Spring Harbor Laboratory},
+  doi={10.1101/2025.09.07.674717},
+  pdf = {assets/pdf/pacman_biorxiv.pdf},
+  selected={true},
+  website={https://www.biorxiv.org/content/10.1101/2025.09.07.674717v1.full},
+  abstract={Skilled movement often requires flexibly combining multiple subskills, each requiring dedicated control strategies and underlying computations. How the motor system achieves such versatility remains unclear. Using high-density Neuropixels recordings from primary motor cortex (M1) in macaques performing a challenging force-tracking task, we reveal that M1 activity is much higher-dimensional, and far more flexible, than traditionally assumed. Although our task employed only a single external degree of freedom, neural dynamics reflected transitions amongst many dimensions and multiple distinct computations. Different behavioral control strategies were associated with distinct neural locations and dimensions, sometimes used compositionally. Groups of population-level factors became active when a particular form of dynamics was needed, and remained silent otherwise. Neural activity was thus dominated by the engaged subskill, and could be very different even for matched motor output. These findings challenge prevailing views of M1, and reveal an unexpectedly flexible and high-dimensional neural system underlying skilled motor behavior.},
+directions={comp_neuro, neuro},
+subdirs={neural_dynamics, motor_neuro},
+project={skill-learning, hrl-motor}
+}
+
+@article{perkins2025emerging,
+  title={An emerging view of neural geometry in motor cortex supports high-performance decoding},
+  author={Perkins, Sean M and Amematsro, Elom A and Cunningham, John and Wang, Qi and Churchland, Mark M},
+  journal={Elife},
+  volume={12},
+  pages={RP89421},
+  year={2025},
+  publisher={eLife Sciences Publications Limited},
+  pdf={assets/pdf/mint.pdf},
+  doi={10.7554/eLife.89421.3},
+  selected={true},
+  abstract = {Decoders for brain-computer interfaces (BCIs) assume constraints on neural activity, chosen to reflect scientific beliefs while yielding tractable computations. Recent scientific advances suggest that the true constraints on neural activity, especially its geometry, may be quite different from those assumed by most decoders. We designed a decoder, MINT, to embrace statistical constraints that are potentially more appropriate. If those constraints are accurate, MINT should outperform standard methods that explicitly make different assumptions. Additionally, MINT should be competitive with expressive machine learning methods that can implicitly learn constraints from data. MINT performed well across tasks, suggesting its assumptions are well-matched to the data. MINT outperformed other interpretable methods in every comparison we made. MINT outperformed expressive machine learning methods in 37 of 42 comparisons. MINT’s computations are simple, scale favorably with increasing neuron counts, and yield interpretable quantities such as data likelihoods. MINT’s performance and simplicity suggest it may be a strong candidate for many BCI applications.},
+keywords = {brain-computer interface, motor control, decoding, population activity, state estimation},
+journal = {eLife},
+issn = {2050-084X},
+publisher = {eLife Sciences Publications, Ltd},
+dimensions={true},
+website={https://elifesciences.org/articles/89421},
+directions={neuro},
+subdirections={motor_neuro}
+}
+
+@article{trautmann2025large,
+  title={Large-scale high-density brain-wide neural recording in nonhuman primates},
+  author={Trautmann, Eric M and Hesse, Janis K and Stine, Gabriel M and Xia, Ruobing and Zhu, Shude and O’Shea, Daniel J and Karsh, Bill and Colonell, Jennifer and Lanfranchi, Frank F and Vyas, Saurabh and others},
+  journal={Nature Neuroscience},
+  pages={1--14},
+  year={2025},
+  publisher={Nature Publishing Group US New York},
+  altmetric={36216998},
+  dimensions={true},
+  directions={neuro},
+  doi={10.1038/s41593-025-01976-5},
+}
+
 @article{10.1038/s41593-022-01165-8, 
 year = {2022}, 
 title = {{Flexible neural control of motor units}}, 
@@ -13,9 +65,11 @@ doi = {10.1038/s41593-022-01165-8},
 pmid = {36216998}, 
 abstract = {{Voluntary movement requires communication from cortex to the spinal cord, where a dedicated pool of motor units (MUs) activates each muscle. The canonical description of MU function rests upon two foundational tenets. First, cortex cannot control MUs independently but supplies each pool with a common drive. Second, MUs are recruited in a rigid fashion that largely accords with Henneman’s size principle. Although this paradigm has considerable empirical support, a direct test requires simultaneous observations of many MUs across diverse force profiles. In this study, we developed an isometric task that allowed stable MU recordings, in a rhesus macaque, even during rapidly changing forces. Patterns of MU activity were surprisingly behavior-dependent and could be accurately described only by assuming multiple drives. Consistent with flexible descending control, microstimulation of neighboring cortical sites recruited different MUs. Furthermore, the cortical population response displayed sufficient degrees of freedom to potentially exert fine-grained control. Thus, MU activity is flexibly controlled to meet task demands, and cortex may contribute to this ability. Muscle fibers have diverse properties—for example, slow and fast twitch. Groups of fibers are activated by motoneurons. Marshall et al. found that motoneurons are used flexibly, presumably allowing us to intelligently employ fibers suited to each task.}}, 
 pages = {1--13}, 
-url={https://www.nature.com/articles/s41593-022-01165-8},
+website={https://www.nature.com/articles/s41593-022-01165-8},
 altmetric={36216998},
 dimensions={true},
+directions={neuro},
+subdirections={motor_neuro}
 }
 
 
@@ -27,7 +81,8 @@ journal = {bioRxiv},
 doi = {10.1101/2021.02.10.430647}, 
 abstract = {{Cerebellum-like structures are found in many brains and share a basic fan-out–fan-in network architecture. How the specific structural features of these networks give rise to their learning function remains largely unknown. To investigate this structure–function relationship, we developed a realistic computational model of an empirically very well-characterized cerebellum-like structure, the Drosophila melanogaster mushroom body. We show how well-defined connectivity patterns between the Kenyon cells, the constituent neurons of the mushroom body, and their input projection neurons enable different functions. First, biases in the likelihoods at which individual projection neurons connect to Kenyon cells allow the mushroom body to prioritize the learning of particular, ethologically meaningful odors. Second, groups of projection neurons connecting preferentially to the same Kenyon cells facilitate the mushroom body generalizing across similar odors. Altogether, our results demonstrate how different connectivity patterns shape the representation space of a cerebellum-like network and impact its learning outcomes.}}, 
 pages = {2021.02.10.430647},
-url={https://www.biorxiv.org/content/10.1101/2021.02.10.430647v2},
+website={https://www.biorxiv.org/content/10.1101/2021.02.10.430647v2},
 altmetric={36216998},
 dimensions={true},
+directions={comp_neuro}
 }

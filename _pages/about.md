@@ -1,8 +1,7 @@
 ---
 layout: about
-title: about
+title: About
 permalink: /
-subtitle: <a href='#'>Center for Theoretical Neuroscience Columbia University</a>. elom.amematsro@columbia.edu.
 
 profile:
   align: right
@@ -14,7 +13,20 @@ latest_posts: false  # includes a list of the newest posts
 selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
+# Elom A. Amematsro
+**Kempner Research Fellow, Kempner Institute, Harvard University**
 
-My name is Elom Amematsro, and I'm a PhD Candidate in computational neuroscience at Columbia University working in the labs of Dr. Larry Abbott and Dr. Mark Churchland. My research spans a variety of topics, ranging from nonlinear optimization; dynamical systems theory; motor control; learning and memory; to sensory representations. In essence, anything related to using computational approaches to understand the principles underlying brain organization and neural activity in general. I am particularly interested in understanding the principles underlying our ability to continuously learn a vast amount of skills throughout our lives.
+I study how intelligent systems—brains and robots—learn flexible, hierarchical control. My work bridges **reinforcement learning and statistical inference** with **computational motor neuroscience** and **robotics**, aiming for theory that both explains neural computation and scales to embodied agents.
 
-I graduated from The University of Utah in 2019 with a BS in Mathematics and Physics. I was also a research assistant in Dr. Sophie Caron's lab.
+[Publications](/publications/) · <a href="https://scholar.google.com/citations?user=YOUR_ID" target="_blank">Google Scholar</a> · <a href="mailto:eamematsro@fas.harvard.edu">Email</a>
+
+---
+
+### Research at a glance
+- **Hierarchical RL & Inference** — Compositional skills, credit assignment, and uncertainty for sequential control.  
+- **Computational Motor Control** — How neural dynamics organize action, from flexible sequencing to adaptation.  
+- **Robot Learning** — Embodied tests (sim + hardware); dexterous manipulation and adaptive control.
+
+---
+
+{% comment %} The news section is rendered via news.html and items in _news/ {% endcomment %}
