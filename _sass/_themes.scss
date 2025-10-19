@@ -92,6 +92,7 @@ html[data-theme='dark'] {
   }
 }
 
+/* keep this as-is */
 :root {
   --accent-start: #3b82f6; /* blue */
   --accent-end:   #8b5cf6; /* violet */
@@ -101,4 +102,21 @@ a, .btn-pill:hover {
   background: var(--accent-grad);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* --- put THIS block AFTER the rule above --- */
+/* Hard neutralize inside impact/citation badges so their text isn't transparent. */
+a.__dimensions_badge_embed__,
+.__dimensions_badge_embed__,
+.__dimensions_badge_embed__ *,
+a.altmetric-embed,
+.altmetric-embed,
+.altmetric-embed *,
+.badges a,
+.pub-impact a,
+.impact-badges a {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  color: inherit !important;
 }
