@@ -30,8 +30,7 @@ people_to_follow:
   - name: Sergey Levine
     url: https://scholar.google.com/citations?hl=en&user=8R35rCwAAAAJ
   - name: Benjamin Eysenbach
-    url: https://scholar.google.com/citations?hl=en&user=8R35rCwAAAAJ
-    note: Unsupervised skill discovery
+    url: https://scholar.google.com/citations?user=DRnOvU8AAAAJ&hl=en&oi=ao
   - name: Lea Duncker
     url: https://scholar.google.com/citations?user=8qFtz34AAAAJ&hl=en
   - name: Haozhe Shan
